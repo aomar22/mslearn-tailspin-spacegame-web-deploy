@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo "Task 2 running on Microsoft-hosted agent"
+  displayName: "Verify hosted agent"
+
+- script: |
+    echo "Agent Name: $(Agent.Name)"
+    echo "Agent OS: $(Agent.OS)"
+    echo "Machine Name: $(Agent.MachineName)"
+  displayName: "Show agent information"
