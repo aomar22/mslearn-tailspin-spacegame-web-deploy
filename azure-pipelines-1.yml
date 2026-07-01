@@ -40,15 +40,22 @@ stages:
   displayName: 'Deploy stage'
   dependsOn: Test
   condition: succeeded('Test')
+
   jobs:
-  - job: DeployJob
+  - deployment: DeployJob
     displayName: 'Deploy on Microsoft-hosted agent'
+    environment: deploy-approval
+
     pool:
       vmImage: 'ubuntu-22.04'
-    steps:
-    - script: |
-        echo "Deploying application..."
-        echo "Agent Name: $(Agent.Name)"
-        echo "Agent OS: $(Agent.OS)"
-        echo "Deployment completed successfully."
-      displayName: 'Deploy and show agent info'
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              echo "Deploying application..."
+              echo "Agent Name: $(Agent.Name)"
+              echo "Agent OS: $(Agent.OS)"
+              echo "Deployment completed successfully."
+            displayName: 'Deploy and show agent'
